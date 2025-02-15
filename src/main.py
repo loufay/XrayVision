@@ -120,15 +120,24 @@ def main():
             if st.button('Analyze Image'):
             # Call the function from the imported file
                 predictions_torchxrayvision = torch_x_ray_prediction(uploaded_file)
+                print("#"*50)
+                print(predictions_torchxrayvision)
+                print("#"*50)
+
                 diseases_in_x_ray = []
-                for d in selected_diseases:
-                    if predictions_torchxrayvision[d] == 1:
-                        diseases_in_x_ray.append(d)
-                    if len(diseases_in_x_ray) == 0:
-                        st.write("No diseases found in the X-ray.")
-                    else:
-                        s = ', '.join(diseases_in_x_ray)
-                st.write("Predicted diseases:", s)
+                try: 
+                    for d in selected_diseases:
+                        if predictions_torchxrayvision[d] == 1:
+                            diseases_in_x_ray.append(d)
+
+                        if len(diseases_in_x_ray) == 0:
+                            st.write("No diseases found in the X-ray.")
+                        else:
+                            s = ', '.join(diseases_in_x_ray)
+                            st.write("Predicted diseases:", s)
+                except:
+                    # No valid x-ray image
+                    st.write("No valid X-ray image uploaded.")
 
             
 
