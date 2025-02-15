@@ -70,3 +70,36 @@ class CheXagent(object):
             response = self.generate(paths, prompt)
             responses.append((anatomy, response))
         return responses
+
+    def plot_image(self, path, response, save_path):
+        if path.startswith("http://") or path.startswith("https://"):
+            pil_image = Image.open(requests.get(path, stream=True).raw)
+        else:
+            pil_image = Image.open(path)
+        pil_image = pil_image.convert("RGB")
+
+        boxes = [_dict["box"] for _dict in self.tokenizer.to_list_format(response) if "box" in _dict]
+        boxes = [[int(cord) / 100 for cord in box.replace("(", "").replace(")", "").split(",")] for box in boxes]
+        w = pil_image.width
+        h = pil_image.height
+        draw = ImageDraw.Draw(pil_image)
+        for box in boxes:
+            draw.rectangle((box[0] * w, box[1] * h, box[2] * w, box[3] * h), width=10, outline="#FF6969")
+        pil_image = pil_image.convert("RGB")
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        pil_image.save(save_path)
+        print(f'Saving the result at {save_path}')
+
+        return response
+
+
+    def phrase_grounding(self, path, phrase, save_path=f'/mnt/data2/datasets_lfay/aiXperts/src/temp/disease_localization.png'):
+        assert isinstance(path, str)
+        assert isinstance(phrase, str)
+        prompt = f'Please locate the following phrase: {phrase}'
+        response = self.generate([path], prompt)
+
+        self.plot_image(path, response, save_path)
+
+        return response
+
