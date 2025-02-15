@@ -4,6 +4,8 @@ import plotly.express as px
 import numpy as np
 from PIL import Image
 from perform_disease_prediction_torchxrayvision import torch_x_ray_prediction
+from perform_disease_prediction_mi2 import perform_disease_prediction_mi2
+# from perform_disease_prediction_mi2 import perform_disease_prediction_cheXagent
 
 def main():
     st.set_page_config(page_title="Main", page_icon=":computer:", layout="wide")
@@ -81,7 +83,11 @@ def main():
             image = Image.open(uploaded_file)
             st.image(image, caption='Uploaded X-ray.', width=300)
 
-            st.write("Image is ready for processing...")
+            st.write("Image is ready for processing!")
+
+            st.write("It looks like you uploaded a Chest X-Ray!")
+
+
 
             disease_list = ["No Finding", "Enlarged Cardiomediastinum", "Cardiomegaly", "Lung Opacity",
                             "Lung Lesion", "Edema", "Consolidation", "Pneumonia", "Atelectasis", 
@@ -98,7 +104,7 @@ def main():
                 </style>
                 """, unsafe_allow_html=True)
 
-            st.markdown('<p class="big-font">Select diseases you want to test:</p>', unsafe_allow_html=True)
+            st.markdown('<p class="big-font">Please select the diseases you want to test:</p>', unsafe_allow_html=True)
 
 
             if 'selected_diseases' not in st.session_state:
@@ -139,6 +145,36 @@ def main():
                 except:
                     # No valid x-ray image
                     st.write("No valid X-ray image uploaded.")
+=======
+                pred1 = torch_x_ray_prediction(uploaded_file)
+                pred2 = perform_disease_prediction_mi2(uploaded_file)
+
+                diseases_in_x_ray = []
+                for d in selected_diseases:
+                    if pred1[d] == 1:
+                        diseases_in_x_ray.append(d)
+                    dr1 = ', '.join(diseases_in_x_ray)
+
+                diseases_in_x_ray = []
+                for d in selected_diseases:
+                    if pred2[d] == 1:
+                        diseases_in_x_ray.append(d)
+                    dr2 = ', '.join(diseases_in_x_ray)
+
+
+                # for d in selected_diseases:
+                #     if pred3[d] == 1:
+                #         diseases_in_x_ray.append(d)
+                #     dr3 = ', '.join(diseases_in_x_ray)
+
+                st.write("Dr. torch predict diseases:", dr1)
+                st.write("Dr. mi2 predict diseases:", dr2)
+                st.write("Dr. cheXpert predict diseases:", dr2)
+
+
+
+
+>>>>>>> Stashed changes
 
             
 
