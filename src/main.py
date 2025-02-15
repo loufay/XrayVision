@@ -119,6 +119,7 @@ def main():
 
             if st.button('Analyze Image'):
             # Call the function from the imported file
+<<<<<<< Updated upstream
                 predictions_torchxrayvision = torch_x_ray_prediction(uploaded_file)
                 print("#"*50)
                 print(predictions_torchxrayvision)
