@@ -16,15 +16,23 @@ def torch_x_ray_prediction(image_path):
         img = xrv.datasets.normalize(img, 255)  # Convert 8-bit image to [-1024, 1024] range
         img = img[None, ...]
 
+
         transform = torchvision.transforms.Compose([
             xrv.datasets.XRayCenterCrop(),
             xrv.datasets.XRayResizer(224),
         ])
+      
+        if len(img.shape) == 4:
+            image_tensor = torch.from_numpy(img)
+            img = image_tensor.squeeze(0)
+            img = img.numpy()
+        print(img.shape)  
+
         img = transform(img)
         img = torch.from_numpy(img).to(device)  # Move tensor to GPU
 
         outputs = model(img[None, ...])  # Process image through the model
-
+      
         d_pred = dict(zip(model.pathologies, outputs[0].detach().cpu().numpy()))
 
     except Exception as e:
@@ -60,7 +68,7 @@ def torch_x_ray_prediction(image_path):
     else:
         d_pred['No Finding'] = 0
     
-    print(d_pred)
+    # print(d_pred)
 
     return d_pred
 
