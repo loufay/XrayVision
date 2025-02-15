@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 from perform_disease_prediction_torchxrayvision import torch_x_ray_prediction
 from perform_disease_prediction_mi2 import perform_disease_prediction_mi2
-# from perform_disease_prediction_mi2 import perform_disease_prediction_cheXagent
+from perform_disease_prediction_cheXagent import perform_disease_prediction_cheXagent
 
 def main():
     st.set_page_config(page_title="Main", page_icon=":computer:", layout="wide")
@@ -125,41 +125,39 @@ def main():
 
             if st.button('Analyze Image'):
             # Call the function from the imported file
-<<<<<<< Updated upstream
                 predictions_torchxrayvision = torch_x_ray_prediction(uploaded_file)
-                print("#"*50)
-                print(predictions_torchxrayvision)
-                print("#"*50)
+                predictions_mi2 = perform_disease_prediction_mi2(uploaded_file)
+                predictions_cheXagent = perform_disease_prediction_cheXagent(uploaded_file)
 
-                diseases_in_x_ray = []
+                predictions = [predictions_torchxrayvision, predictions_mi2, predictions_cheXagent]
                 try: 
-                    for d in selected_diseases:
-                        if predictions_torchxrayvision[d] == 1:
-                            diseases_in_x_ray.append(d)
+                    for i, prediction_model in enumerate(predictions):
+                        diseases_in_x_ray = []
+                        results_models = [[], [], []]
 
-                        if len(diseases_in_x_ray) == 0:
-                            st.write("No diseases found in the X-ray.")
-                        else:
-                            s = ', '.join(diseases_in_x_ray)
-                            st.write("Predicted diseases:", s)
+                        for d in selected_diseases:
+                            if predictions_torchxrayvision[d] == 1:
+                                diseases_in_x_ray.append(d)
+                            results_models.append(', '.join(diseases_in_x_ray))
                 except:
                     # No valid x-ray image
                     st.write("No valid X-ray image uploaded.")
-=======
-                pred1 = torch_x_ray_prediction(uploaded_file)
-                pred2 = perform_disease_prediction_mi2(uploaded_file)
 
-                diseases_in_x_ray = []
-                for d in selected_diseases:
-                    if pred1[d] == 1:
-                        diseases_in_x_ray.append(d)
-                    dr1 = ', '.join(diseases_in_x_ray)
 
-                diseases_in_x_ray = []
-                for d in selected_diseases:
-                    if pred2[d] == 1:
-                        diseases_in_x_ray.append(d)
-                    dr2 = ', '.join(diseases_in_x_ray)
+                #pred1 = torch_x_ray_prediction(uploaded_file)
+                #pred2 = perform_disease_prediction_mi2(uploaded_file)
+
+                # diseases_in_x_ray = []
+                # for d in selected_diseases:
+                #     if pred1[d] == 1:
+                #         diseases_in_x_ray.append(d)
+                #     dr1 = ', '.join(diseases_in_x_ray)
+
+                # diseases_in_x_ray = []
+                # for d in selected_diseases:
+                #     if pred2[d] == 1:
+                #         diseases_in_x_ray.append(d)
+                #     dr2 = ', '.join(diseases_in_x_ray)
 
 
                 # for d in selected_diseases:
@@ -167,14 +165,13 @@ def main():
                 #         diseases_in_x_ray.append(d)
                 #     dr3 = ', '.join(diseases_in_x_ray)
 
-                st.write("Dr. torch predict diseases:", dr1)
-                st.write("Dr. mi2 predict diseases:", dr2)
-                st.write("Dr. cheXpert predict diseases:", dr2)
+                st.write("Dr. torch predict diseases:", results_models[0])
+                st.write("Dr. mi2 predict diseases:", results_models[1])
+                st.write("Dr. cheXpert predict diseases:", results_models[2])
 
 
 
 
->>>>>>> Stashed changes
 
             
 
