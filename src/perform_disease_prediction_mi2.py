@@ -29,14 +29,25 @@ def load_model():
 def perform_disease_prediction_mi2(path_to_image):  
 
     ##TODO: Remove path to image
-    path_to_image = "/mnt/data2/datasets_lfay/MedImageInsights/data/CheXpert-v1.0-512/images/train/patient42142/study8/view1_frontal.jpg"
+    # path_to_image = "42142.jpg"
 
     # Load model
     classifier = load_model()
 
     # Read image
+    print(path_to_image)
     image = Image.open(path_to_image)
-    image = base64.encodebytes(read_image(path_to_image)).decode("utf-8")
+
+    # Convert the image to bytes
+    buffered = io.BytesIO()
+    image.save(buffered, format="JPEG")
+    img_byte = buffered.getvalue()
+
+    # Encode to base64
+    img_base64 = base64.encodebytes(img_byte)
+
+    # If you need it as a string
+    img_base64_str = img_base64.decode("utf-8")
 
     disease = [ 
     "Enlarged Cardiomediastinum",
@@ -47,9 +58,14 @@ def perform_disease_prediction_mi2(path_to_image):
     results = {}
     for disease in disease:
         labels = ["normal", disease, "unclear"]
-        result = classifier.predict([image], labels)
+        result = classifier.predict([img_base64_str], labels)
         disease_present = 1 if max(result[0], key=result[0].get)==disease else 0    
         results[disease] = disease_present
+    
+    if all(value == 0 for value in results.values()):
+        results['No Finding'] = 1
+    else:
+        results['No Finding'] = 0
     
     ##TODO: Remove print statements
     #print result keys with value 1
@@ -57,5 +73,5 @@ def perform_disease_prediction_mi2(path_to_image):
 
     return results
 
-if __name__ == "__main__":
-    perform_disease_prediction_mi2(path_to_image="")
+# if __name__ == "__main__":
+#     perform_disease_prediction_mi2(path_to_image="../data/42142.jpg")
