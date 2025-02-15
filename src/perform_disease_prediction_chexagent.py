@@ -11,7 +11,7 @@ from models.CheXagent.chexagent import CheXagent
 
 def perform_disease_prediction_chexagent(path_to_image):
     ##TODO: Remove path
-  #  path_to_image = "/mnt/data2/datasets_lfay/MedImageInsights/data/CheXpert-v1.0-512/images/train/patient04905/study4/view1_frontal.jpg"
+    path_to_image = "/mnt/data2/datasets_lfay/MedImageInsights/data/CheXpert-v1.0-512/images/train/patient04905/study4/view1_frontal.jpg"
     print(path_to_image)
     
 
