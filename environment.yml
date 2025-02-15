@@ -1,0 +1,44 @@
+name: treeHack
+name: medical-dl
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.8  # Python version, ensure compatibility with all libraries
+  - numpy
+  - pandas
+  - matplotlib  # For plotting and visualizations
+  - scikit-learn  # For machine learning utilities
+  - scipy  # For scientific computing tools
+
+  # Deep Learning Frameworks
+  - tensorflow-gpu=2.9  # or just tensorflow if not using GPU
+  - keras
+
+  # Medical image specific libraries
+  - pydicom  # Handling DICOM files
+  - SimpleITK  # For advanced image processing
+  - opencv  # For general image processing tasks
+
+  # Visualization of medical images
+  - matplotlib
+  - seaborn  # Enhanced visualization features
+
+  # For data augmentation in deep learning
+  - imgaug  # Augmentation for image data
+  - albumentations  # Fast augmentation library
+
+  # Additional tools for better experimentation
+  - jupyter
+  - ipykernel
+  - nb_conda  # Manage conda environments in Jupyter notebooks
+
+  # Other useful libraries
+  - h5py  # To handle large image data files efficiently
+  - pillow  # Image processing library
+
+  # Environment management
+  - pip
+  - pip:
+    - tensorflow-addons>=0.15.0  # For additional functionalities in TensorFlow
+    - efficientnet  # Pretrained models for deep learning
