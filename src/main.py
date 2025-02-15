@@ -5,7 +5,6 @@ import numpy as np
 from PIL import Image
 from perform_disease_prediction_torchxrayvision import torch_x_ray_prediction
 
-
 def main():
     st.set_page_config(page_title="Main", page_icon=":computer:", layout="wide")
     st.markdown("<h1 style='text-align: center; color: black;'>DiagnoseMe</h1>", unsafe_allow_html=True)
@@ -120,17 +119,18 @@ def main():
 
             if st.button('Analyze Image'):
             # Call the function from the imported file
-                predictions = torch_x_ray_prediction(uploaded_file)
+                predictions_torchxrayvision = torch_x_ray_prediction(uploaded_file)
                 diseases_in_x_ray = []
                 for d in selected_diseases:
-                    if predictions[d] == 1:
+                    if predictions_torchxrayvision[d] == 1:
                         diseases_in_x_ray.append(d)
-                    s = ', '.join(diseases_in_x_ray)
+                    if len(diseases_in_x_ray) == 0:
+                        st.write("No diseases found in the X-ray.")
+                    else:
+                        s = ', '.join(diseases_in_x_ray)
                 st.write("Predicted diseases:", s)
 
             
-
-
 
 
 
