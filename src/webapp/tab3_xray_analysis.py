@@ -45,25 +45,24 @@ def tab3_xray_analysis():
                
                 with st.spinner("Check for diseases..."):
 
-                    pred1 = torch_x_ray_prediction(uploaded_file)
                     try:
-                        d1 = [d for d in selected_diseases if pred1[d] == 1]
+                        # Perform predictions
+                        pred1 = torch_x_ray_prediction(uploaded_file)
                         pred2 = perform_disease_prediction_chexagent(uploaded_file)
-
-                        #TODO: Add third model
-                        # pred2 = perform_disease_prediction_mi2(uploaded_file)
                         pred3 = pred2
-
-                        predictions = {
-                            'Dr1': d1,
-                            'Dr2': [d for d in selected_diseases if pred2[d] == 1],
-                            'Dr3': [d for d in selected_diseases if pred3[d] == 1]
-                        }
                     except:
-                        st.write("No valid X-ray image uploaded.")
-                    
-
-                all_predicted_diseases = set(predictions['Dr1'] + predictions['Dr2'] + predictions['Dr3'])
+                        st.write("Prediction error")
+                try: 
+                    d1 = [d for d in selected_diseases if pred1[d] == 1]
+                    predictions = {
+                        'Dr1': d1,
+                        'Dr2': [d for d in selected_diseases if pred2[d] == 1],
+                        'Dr3': [d for d in selected_diseases if pred3[d] == 1]
+                    }
+                    all_predicted_diseases = set(predictions['Dr1'] + predictions['Dr2'] + predictions['Dr3'])
+                except:
+                    st.write("No valid X-ray image uploaded.")                   
+                
                 # Calculate probabilities and group diseases
                 disease_groups = {3: [], 2: [], 1: []}
                 for disease in all_predicted_diseases:
@@ -123,8 +122,8 @@ def tab3_xray_analysis():
                 # Localize disease
                 if uploaded_file is not None:
                     selected_disease = st.session_state.get("selected_disease", None)
-                    cols = st.columns(len(diseases) // 2)  # Arrange buttons in two rows
-                    for i, disease in enumerate(diseases):
+                    cols = st.columns(len(all_predicted_diseases) // 2)  # Arrange buttons in two rows
+                    for i, disease in enumerate(all_predicted_diseases):
                         if cols[i % len(cols)].button(disease):
                             st.session_state["selected_disease"] = disease  # Store the selected disease
                     # Show selected disease
