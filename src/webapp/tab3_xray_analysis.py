@@ -12,7 +12,7 @@ def tab3_xray_analysis():
     st.markdown("Please upload an X-ray image, and we will display it below.")
     
     # File uploader
-    uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'])
+    uploaded_file = st.file_uploader("Choose an image...", type=['jpg', 'jpeg', 'png'], key="unique_key_1")
 
     if uploaded_file is not None:
         disease_groups = {}
@@ -74,43 +74,55 @@ def tab3_xray_analysis():
                     disease_groups[count].append(disease)
 
                 diseases_info = get_disease_info()
-                st.write("### Detected Diseases based on 3 Assistant Models:")
 
-                if len(all_predicted_diseases) == 0:
-                    st.write("No diseases detected!")
-                else:
-                    for prob, diseases in disease_groups.items():
-                        if diseases:
-                            for disease in diseases:
-                                st.write(f"**{disease}** → Agreement: {prob}/3")
-                                st.info(diseases_info.get(disease, "No additional information available."))
+        st.markdown("<div style='padding: 5px;'></div>", unsafe_allow_html=True)
 
-                st.markdown("## Localize Disease")
+        st.write("### Detected Diseases based on 3 Assistant Models:")
 
-            # Disease localization buttons
-        
-            selected_disease = st.session_state.get("selected_disease", None)
-            cols = st.columns(max(1, len(all_predicted_diseases) // 2))
+        st.markdown("""
+        <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 400px;
+            background-color: blue;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 0%;
+            left: 50%;
+            margin-left: 170px;
+            font-size: 12px;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            font-size: 16px;  /* Larger font size on hover */
+        }
+        </style>
+        """, unsafe_allow_html=True)
 
-            for i, disease in enumerate(all_predicted_diseases):
-                if cols[i % len(cols)].button(disease, key=f"disease_{i}"):
-                    st.session_state["selected_disease"] = disease
+        if len(all_predicted_diseases) == 0:
+            st.write("No diseases detected!")
+        else:
+            # for prob, diseases in disease_groups.items():
+            #     if diseases:
+            #         for disease in diseases:
+            #             st.write(f"**{disease}** → Agreement: {prob}/3")
+            #             st.info(diseases_info.get(disease, "No additional information available."))
+            for prob, diseases in disease_groups.items():
+                if diseases:
+                    for disease in diseases:
+                        # Display each disease in a blue box followed by an arrow and the probability
+                        # tooltip_html = f'<div style="display: inline-block; padding: 10px; background-color: blue; color: white; border-radius: 5px;">{disease}</div> -->  {prob}/3'
+                        tooltip_html = f'<div class="tooltip">{disease}<span class="tooltiptext">{diseases_info[disease]}</span></div> → Agreement{prob}/3'
+                        st.markdown(tooltip_html, unsafe_allow_html=True)
+                    st.markdown("<div style='padding: 20px;'></div>", unsafe_allow_html=True)
 
-            # Show selected disease
-            if all_predicted_diseases is not None:
-                st.markdown(f"**Selected Disease:** {st.session_state['selected_disease']}")
-                print(st.session_state["selected_disease"])
-        #     # Call disease localization only after selectionc
-                if st.button("Localize Disease"):
-                # Save the uploaded file to a temporary path
-                # temp_image_path = "/mnt/data2/datasets_lfay/aiXperts/src/temp/temp_uploaded_xray.png"
-                # with open(temp_image_path, "wb") as f:
-                #     f.write(uploaded_file.getbuffer())
 
-                # Run localization
-            #  with st.spinner("Localizing disease..."):
-        #        perform_disease_localization(temp_image_path, disease=st.session_state["selected_disease"])
-
-                # Display localized disease image
-                    path_to_localized_disease = "/mnt/data2/datasets_lfay/aiXperts/src/temp/disease_localization.png"
-                    st.image(path_to_localized_disease, caption='Localized Disease.', use_container_width=True)
