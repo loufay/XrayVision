@@ -23,7 +23,7 @@ def perform_disease_localization(path_to_image, disease=""):
     chexagent = CheXagent()
 
     phrase = f"There is a {disease}."
-    response = chexagent.phrase_grounding(path_to_image, phrase)
+    response = chexagent.phrase_grounding(file_path, phrase)
     print(f'Result: {response}')
     print(f'=' * 42)
 
