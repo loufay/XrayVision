@@ -2,7 +2,7 @@
 
 ## Hack the World a Better Place!  
 
-### TREEHACK - 2025  
+### 🌲 TREEHACKS - 2025  
 
 XRayVision is a cutting-edge web app designed to empower patients by providing instant diagnostic insights from multiple AI models. By harnessing an ecosystem of diverse AI-powered analyses, we enhance trust, reduce uncertainty, and deliver more reliable results than any single-model approach. Our platform not only detects diseases and pathologies but also provides AI-driven explanations, generates comprehensive reports, and offers personalized recommendations for next steps. Whether seeking a second opinion or validating AI-driven diagnostics, XRayVision is here to support you.  
 
