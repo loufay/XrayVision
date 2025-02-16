@@ -1,6 +1,12 @@
 
+import streamlit as st 
+import os 
+import sys 
+from perform_report_explanation_mistral import explain_radiology_report
+from perform_report_generation_chexagent import perform_report_generation_chexagent
 
-def tab4_simplify_radreport():
+
+def tab4_radreport():
     st.markdown("## Radiology Report Simplification")
     report_option = st.radio("Choose input method:", ["Upload Existing Report", "Generate Report from Image"])
     report_text = None

@@ -1,4 +1,4 @@
-from model_loader import load_mistral_model  
+from models.model_loader import load_mistral_model  
 import torch
 
 def get_mistral_model():

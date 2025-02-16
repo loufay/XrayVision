@@ -10,10 +10,7 @@ from models.CheXagent.chexagent import CheXagent
 # if other gpu set torch.float16 back to torch.bfloat16
 
 def perform_disease_prediction_chexagent(path_to_image):
-    ##TODO: Remove path
-    path_to_image = "/mnt/data2/datasets_lfay/MedImageInsights/data/CheXpert-v1.0-512/images/train/patient04905/study4/view1_frontal.jpg"
-    print(path_to_image)
-    
+   
 
     if path_to_image is not None:
         # Save it to a temp file
@@ -22,7 +19,6 @@ def perform_disease_prediction_chexagent(path_to_image):
 
         file_path = path_to_image.name
         print(file_path)
-
 
 
     chexagent = CheXagent()
