@@ -91,7 +91,8 @@ def tab1_welcome():
         ("📍", "Highlight Disease Location", "Visualizing the affected areas within your X-ray image.\n"),
         ("📝", "Medical Report Generation", "An AI-powered report based on your X-ray analysis."),
         ("📖", "Report Explanation", "A detailed breakdown of the results in simple terms."),
-        ("🎯", "Personalized Recommendations", "Tailored advice based on your diagnosis, demographic, and lifestyle information.")
+        ("🎯", "Personalized Recommendations", "Tailored advice based on your diagnosis, demographic, and lifestyle information."),
+        ("🌲", "TreeHacks 2025", "Developed by Clemence & Louisa.")
     ]
 
     # Display Services in Two Columns
