@@ -25,8 +25,6 @@ def main():
     # Tabs
     tabs = st.tabs(["Home", "Personal Information", "Read Your Rays", "Explain Report"])
     tab1, tab2, tab3, tab4 = tabs
-
-
     with tab1:
         tab1_welcome()
     with tab2:

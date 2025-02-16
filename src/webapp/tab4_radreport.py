@@ -27,10 +27,13 @@ def tab4_radreport():
         report_text = perform_report_generation_chexagent(uploaded_file)
         st.text_area("Generated Report:", report_text, height=150)
     if st.button("Explain Report", key="explain_report_btn") and report_text:
+
         with st.spinner("Generating explanation..."):
             explanation = explain_radiology_report(report_text)
-        st.markdown("### Simplified Explanation:")
-        st.write(explanation)
+
+        with st.container():
+            st.markdown("### Explanation of the Radiology Report")
+            st.info(explanation)
 
 
     st.markdown("## Would like some recommendations based on our diagnosis?")
@@ -106,3 +109,5 @@ def read_csv_to_dict(filename):
 
 
         
+
+
