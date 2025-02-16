@@ -20,11 +20,13 @@ def main():
     a { color: blue; } /* Changes the color of links */
     </style>
     """, unsafe_allow_html=True)
-    st.markdown("<h1 style='text-align: center; color: black;'>DiagnoseMe</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center; color: black;'>Read Your Rays, Right Away</h3>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: black;'>XRayVision</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: black;'>Read Your X-rays, Right Away</h3>", unsafe_allow_html=True)
     # Tabs
-    tabs = st.tabs(["Home", "Personal Information", "Read Your Rays", "Explain Report"])
+    tabs = st.tabs(["Home", "Personal Information", "Read Your X-rays", "Explain Report"])
     tab1, tab2, tab3, tab4 = tabs
+
+
     with tab1:
         tab1_welcome()
     with tab2:
