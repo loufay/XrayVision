@@ -5,9 +5,12 @@ from PIL import Image
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from transformers import AutoModelForCausalLM, AutoProcessor, GenerationConfig
 from models.CheXagent.chexagent import CheXagent
-
+import streamlit as st
 # huggingface-cli login
 # if other gpu set torch.float16 back to torch.bfloat16
+@st.cache_resource
+def load_chexagent():
+    return CheXagent()
 
 def perform_disease_prediction_chexagent(path_to_image):
    
@@ -21,7 +24,9 @@ def perform_disease_prediction_chexagent(path_to_image):
         print(file_path)
 
 
-    chexagent = CheXagent()
+    # chexagent = CheXagent()
+    chexagent = load_chexagent()
+
 
     diseases = [ 
         "Enlarged Cardiomediastinum",
