@@ -31,7 +31,7 @@ def explain_radiology_report(report_text):
     # Load model inside function
     mistral_tokenizer, mistral_model = get_mistral_model()
     
-    prompt = f"<s>[INST] Explain the following radiology report in simple and short terms for a non-medical person:\n\n{report_text}\n\nExplanation: [/INST]"
+    prompt = f"<s>[INST] Explain the following radiology report in simple and short terms for a non-medical person make each statement in a new line :\n\n{report_text}\n\nExplanation: [/INST]"
     # prompt = f"<s>[INST] Explain the following chest x-ray report in simple and short terms for a non-medical person:\n{report_text}[/INST]"
     
     inputs = mistral_tokenizer(prompt, return_tensors="pt").to("cuda")
@@ -43,6 +43,14 @@ def explain_radiology_report(report_text):
 
     start = explanation.find('Explanation')   # Find the first newline after the prompt part and adjust if your output format is different
     explanation = explanation[start:].strip()  # Strip leading and trailing whitespace
+
+    # Remove Explanation: tag
+    explanation = explanation.replace("Explanation:", "").strip()
+
+    # start new line with numbering 1. 2. 3. etc
+    explanation_lines = explanation.split("\n")
+    # if len(explanation_lines) > 1:
+    #     explanation = f"1. {explanation_lines[0]}\n\n2. {explanation_lines[1]}"
 
     return explanation
 

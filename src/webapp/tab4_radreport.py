@@ -26,5 +26,8 @@ def tab4_radreport():
     if st.button("Explain Report", key="explain_report_btn") and report_text:
         with st.spinner("Generating explanation..."):
             explanation = explain_radiology_report(report_text)
-        st.markdown("### Simplified Explanation:")
-        st.write(explanation)
+
+        with st.container():
+            st.markdown("### Explanation of the Radiology Report")
+            st.info(explanation)
+
