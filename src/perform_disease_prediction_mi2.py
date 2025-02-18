@@ -28,8 +28,6 @@ def load_model():
 
 def perform_disease_prediction_mi2(path_to_image):  
 
-    ##TODO: Remove path to image
-    # path_to_image = "42142.jpg"
 
     # Load model
     classifier = load_model()
@@ -73,5 +71,5 @@ def perform_disease_prediction_mi2(path_to_image):
 
     return results
 
-# if __name__ == "__main__":
-#     perform_disease_prediction_mi2(path_to_image="../data/42142.jpg")
+if __name__ == "__main__":
+    perform_disease_prediction_mi2(path_to_image="../data/42142.jpg")

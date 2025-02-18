@@ -5,12 +5,20 @@ import skimage.io
 import numpy as np
 import torchxrayvision as xrv
 from sklearn.metrics import roc_auc_score, roc_curve
+import streamlit as st
 
+# Cache the model loading to avoid redundant initialization
+@st.cache_resource
+def load_xray_model():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = xrv.models.DenseNet(weights="densenet121-res224-all")  # Load DenseNet model
+    model.to(device)
+    model.eval()  # Set model to evaluation mode
+    return model, device
 
 def torch_x_ray_prediction(image_path):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = xrv.models.DenseNet(weights="densenet121-res224-all")  # chex
-    model.to(device)
+    model, device = load_xray_model()  # Load cached model
+
     try:
         img = skimage.io.imread(image_path)
         img = xrv.datasets.normalize(img, 255)  # Convert 8-bit image to [-1024, 1024] range
@@ -73,15 +81,3 @@ def torch_x_ray_prediction(image_path):
     return d_pred
 
     
-
-# def main(image_path):
-#     start_time = time.time()
-#     d_pred = torch_x_ray_prediction(image_path)
-#     elapsed_time = time.time() - start_time
-#     print(f"Total processing time: {elapsed_time:.2f} seconds")
-#     return d_pred
-
-
-# # How to use
-# if __name__ == "__main__":
-#     output = main("../data/mimic.jpg")

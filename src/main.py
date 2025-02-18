@@ -20,7 +20,7 @@ def main():
     </style>
     """, unsafe_allow_html=True)
     st.markdown("<h1 style='text-align: center; color: black;'>Welcome to XRayVision</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center; color: black;'>Read Your X-rays, Right Away</h3>", unsafe_allow_html=True)
+    st.markdown("<h3 style='text-align: center; color: black;'>Read Your X-rays, Right Away 🩺</h3>", unsafe_allow_html=True)
     # Tabs
     tabs = st.tabs(["Home", "Personal Information", "Read Your X-rays","Locate Disease", "Explain Report"])
     tab1, tab2, tab3, tab4, tab5 = tabs
